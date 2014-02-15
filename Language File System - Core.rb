@@ -478,6 +478,11 @@ $imported[:LanguageFileSystem_Core] = true
 # 5. Changelog
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 
+#   1.3:
+#     - Bugfix: Encryption of data now really encrypts each of the languages
+#               into the correct file.
+#     - Bugfix: Encryption of the up-to-date language files now also works, 
+#               when the USE_ENCRYPTION flag is set.
 #   1.2:
 #     - Added support for in-game name changes
 #     - Added support for class skill learning notes
@@ -637,14 +642,16 @@ module LanguageFileSystem
   def self.encrypt
     if DEFAULT_LANGUAGE
       LANGUAGES.each { |l|
-        save_data(load_dialogues(l), 
-                  "Data/#{DIALOGUE_FILE_PREFIX}#{@language}.rvdata2")
-        save_data(load_database(l),
-                  "Data/#{DATABASE_FILE_PREFIX}#{@language}.rvdata2")
+        save_data(load_dialogues(l, false), 
+                  "Data/#{DIALOGUE_FILE_PREFIX}#{l}.rvdata2")
+        save_data(load_database(l, false),
+                  "Data/#{DATABASE_FILE_PREFIX}#{l}.rvdata2")
       }
     else
-      save_data(load_dialogues, "Data/#{DIALOGUE_FILE_PREFIX}.rvdata2")
-      save_data(load_database, "Data/#{DATABASE_FILE_PREFIX}.rvdata2")
+      save_data(load_dialogues(nil, false), 
+                "Data/#{DIALOGUE_FILE_PREFIX}.rvdata2")
+      save_data(load_database(nil, false),
+                "Data/#{DATABASE_FILE_PREFIX}.rvdata2")
     end
   end
   
@@ -721,8 +728,8 @@ module LanguageFileSystem
   #--------------------------------------------------------------------------
   # * Load and return dialogue hash from a language file
   #--------------------------------------------------------------------------
-  def self.load_dialogues(language = nil)
-    if ENABLE_ENCRYPTION
+  def self.load_dialogues(language = nil, use_encrypt = true)
+    if ENABLE_ENCRYPTION && use_encrypt
       return load_data("Data/#{DIALOGUE_FILE_PREFIX}#{language}.rvdata2")
     end
     
@@ -769,8 +776,8 @@ module LanguageFileSystem
   #--------------------------------------------------------------------------
   # * Load and return database hash from a language file
   #--------------------------------------------------------------------------
-  def self.load_database(language = nil)
-    if ENABLE_ENCRYPTION
+  def self.load_database(language = nil, use_encrypt = true)
+    if ENABLE_ENCRYPTION && use_encrypt
       return load_data("Data/#{DATABASE_FILE_PREFIX}#{language}.rvdata2")
     end
     result = new_database_hash
@@ -1175,7 +1182,6 @@ module DataManager
   end
   def self.load_database
     lfs_load_database
-    #LanguageFileSystem::load_language
     LanguageFileSystem::initialize
   end
 
