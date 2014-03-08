@@ -1198,12 +1198,12 @@ module LanguageFileSystem
           map = load_data(m)
           unless map.display_name.empty?
             db_file.write("\n")
-            db_file.write("<<maps:%d:display_name>>\n" % map_id.to_i)
+            db_file.write("<<maps/%d:display_name>>\n" % map_id.to_i)
             db_file.write(map.display_name + "\n")
           end
           unless map.note.empty?
             db_file.write("\n")
-            db_file.write("<<maps:%d:note>>\n" % map_id.to_i)
+            db_file.write("<<maps/%d:note>>\n" % map_id.to_i)
             db_file.write(map.note.gsub("\r", "") + "\n")
           end
           map.events.values.each { |ev|
@@ -1342,14 +1342,14 @@ module LanguageFileSystem
                 learnings.each_with_index { |l, i|
                   unless l.note.empty?
                     f.write("\n")
-                    f.write("<<classes:%d:learnings:%d>>\n" % [obj.id, i])
+                    f.write("<<classes/%d/learnings:%d>>\n" % [obj.id, i])
                     f.write(l.note.gsub("\r", "") + "\n")
                   end
                 }
               elsif example_db[group_name].has_key?(key) && 
                  !obj.instance_variable_get(iv).empty?
                 f.write("\n")
-                f.write("<<%s:%d:%s>>\n" % [group_name, obj.id, key])
+                f.write("<<%s/%d/%s>>\n" % [group_name, obj.id, key])
                 f.write(obj.instance_variable_get(iv).gsub("\r", "") + "\n")
               end
             }
@@ -1358,11 +1358,11 @@ module LanguageFileSystem
         
         # Extract System
         f.write("\n")
-        f.write("<<system:game_title>>\n")
-        f.write($data_system.game_title + "\n")
+        f.write("<<system/game_title>>\n")
+        f.write($data_system.instance_variable_get("@game_title") + "\n")
         f.write("\n")
-        f.write("<<system:currency_unit>>\n")
-        f.write($data_system.currency_unit + "\n")
+        f.write("<<system/currency_unit>>\n")
+        f.write($data_system.instance_variable_get("@currency_unit") + "\n")
         
         # Extract Types
         [:elements, :skill_types, :weapon_types, :armor_types].each { |group|
@@ -1370,7 +1370,7 @@ module LanguageFileSystem
             each_with_index { |t, i|
             unless t.empty?
               f.write("\n")
-              f.write("<<types:%s:%d>>\n" % [group, i])
+              f.write("<<types/%s/%d>>\n" % [group, i])
               f.write(t + "\n")
             end
           }
@@ -1382,7 +1382,7 @@ module LanguageFileSystem
             each_with_index { |t, i|
             unless t.empty?
               f.write("\n")
-              f.write("<<terms:%s:%d>>\n" % [group, i])
+              f.write("<<terms/%s/%d>>\n" % [group, i])
               f.write(t + "\n")
             end
           }
@@ -1391,7 +1391,7 @@ module LanguageFileSystem
         # Extract Vocab
         Vocab.constants.each { |c|
           f.write("\n")
-          f.write("<<Vocab:#{c}>>\n")
+          f.write("<<constants/Vocab/#{c}>>\n")
           f.write(Vocab.const_get(c) + "\n")
         }
       ensure
