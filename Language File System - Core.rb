@@ -1074,20 +1074,39 @@ module LanguageFileSystem
   #--------------------------------------------------------------------------
     def load_database_file(filename)
       result = new_database_hash
+      
+      line_number = 0
+      error_line = 0
+      errors = ""
+      
       open(filename) { |f|
         line_name = nil
         line = ""
+        
         f.each_line { |l|
+          line_number += 1
           if m = STRING_ID.match(l)
-            put_database_entry(result, line_name, line.rstrip) if line_name
+            begin
+              put_database_entry(result, line_name, line.rstrip) if line_name
+            rescue Exception => e
+              errors << "\n  #{filename}:#{error_line} - #{e.message}"
+            end
             line_name = m[1]
+            error_line = line_number
             line = ""
           else
             line += l
           end
         }
-        put_database_entry(result, line_name, line.rstrip) if line_name
+        begin
+          put_database_entry(result, line_name, line.rstrip) if line_name
+        rescue Exception => e
+          errors << "\n  #{filename}:#{error_line} - #{e.message}"
+        end
       }
+      
+      msgbox "There were errors in #{filename}:" + errors unless errors.empty?
+      
       result
     end
     
@@ -1132,6 +1151,8 @@ module LanguageFileSystem
       }
     end
     
+    MISSING_PARAM_MSG = "Missing parameter(s) for %s"
+    
   #--------------------------------------------------------------------------
   # * Put read data into the database hash
   #--------------------------------------------------------------------------
@@ -1139,10 +1160,13 @@ module LanguageFileSystem
       group, param1, param2, param3 = line_name.split("/")
       case group
         when "system", "names", "variables", "eval"
+          raise MISSING_PARAM_MSG % group unless param1
           db[group.to_sym][param1.to_sym] = line
         when "types", "terms"
+          raise MISSING_PARAM_MSG % group unless param1 && param2
           db[group.to_sym][param1.to_sym][param2.to_i] = line
         when "constants"
+          raise MISSING_PARAM_MSG % group unless param1 && param2
           db[:constants][param1.to_sym] ||= {} 
           db[:constants][param1.to_sym][param2.to_sym] = line
         else
@@ -1154,6 +1178,9 @@ module LanguageFileSystem
               instance_variable_get("@learnings").clone
             learn_hash[class_id][param3.to_i].note = line
           else
+            raise MISSING_PARAM_MSG % group unless param1 && param2
+            raise "Unknown database group '#{group}'" unless db[group.to_sym]
+            raise "Unknown parameter '#{param2}' for database group '#{group}'" unless db[group.to_sym][param2.to_sym]
             db[group.to_sym][param2.to_sym][param1.to_i] = line
           end
       end
