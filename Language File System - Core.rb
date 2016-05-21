@@ -589,9 +589,10 @@ $imported[:LanguageFileSystem_Core] = true
 # 
 #   1.4.1:
 #     - Bugfix: Fixed invalid id creation for map display_name and note 
-#               extraction.
+#               extraction and learnings.
 #     - Bugfix: Extracting a game a second time does not destroy choice
 #               commands anymore.
+#     - Bugfix: Fixed learnings (they were broken all the time).
 #   1.4:
 #     - Added detailed error log for database file errors
 #   1.3.1:
