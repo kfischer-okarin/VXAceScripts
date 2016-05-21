@@ -1,7 +1,7 @@
 #==============================================================================
 # 
 # Language File System - Core Script
-# Version 1.3
+# Version 1.3.1
 # Last Update: March 8th, 2014
 # Author: DerTraveler (dertraveler [at] gmail.com)
 #
@@ -255,8 +255,8 @@ $imported[:LanguageFileSystem_Core] = true
 #
 #       Available groups are
 #         - actors       - classes      - skills
-#         - items        - weapons      - enemies
-#         - states       - maps
+#         - items        - weapons      - armors
+#         - enemies      - states       - maps
 #
 #     [id]
 #       The id of your object in the RPG Maker database.
@@ -360,7 +360,7 @@ $imported[:LanguageFileSystem_Core] = true
 #
 #   1. Changing module constants
 #
-#     This works just exactlz the same way like changing the constants in the
+#     This works just exactly the same way like changing the constants in the
 #     Vocab module of the RPG Maker VX Ace.
 #     The ID has following format:
 #
@@ -578,6 +578,18 @@ $imported[:LanguageFileSystem_Core] = true
 # 5. Changelog
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 
+#   1.3.1:
+#     - Bugfix: Battle Events are now extracted too (Thanks to masterdragonson
+#               for pointing it out)
+#     - Bugfix: Fixed bad unsafe array accesses which forced the database file
+#               to have an entry if you don't want your game to crash when that
+#               particular text is accessed.
+#     - Bugfix: Extracting all data now produces database files with the current
+#               version number.
+#     - Removed the useless USE_XXXX flags. All the features now just work 
+#       depending on whether the respective files exist and/or there is an
+#       entry or not in that file.
+#     - Added alert dialogues to the extraction.
 #   1.3:
 #     - Bugfix: Encryption of data now really encrypts each of the languages
 #               into the correct file.
@@ -637,21 +649,6 @@ $imported[:LanguageFileSystem_Core] = true
 module LanguageFileSystem
 
   #---------------------------------------------------------------------------
-  # USE_DIALOGUE_FILES
-  # Set this to false if you want to disable external dialogue files.
-  #---------------------------------------------------------------------------
-  USE_DIALOGUE_FILES = true
-  #---------------------------------------------------------------------------
-  # USE_DATABASE_FILES
-  # Set this to false if you want to disable external database text files.
-  #---------------------------------------------------------------------------
-  USE_DATABASE_FILES = true
-  #---------------------------------------------------------------------------
-  # USE_PICTURE_SUPPORT
-  # Set this to false if you want to disable picture support.
-  #---------------------------------------------------------------------------
-  USE_PICTURE_SUPPORT = true
-  #---------------------------------------------------------------------------
   # LANGUAGES
   # This is a list of all the languages in your game.
   # Use [] if your game has only one language.
@@ -704,6 +701,8 @@ module LanguageFileSystem
   
   COMMON_EVENT_PREFIX = "Common Events/"
   
+  BATTLE_EVENT_PREFIX = "Battle Events/"
+  
   @dialogues = {}
   
   @database = {}
@@ -716,12 +715,12 @@ module LanguageFileSystem
   def self.initialize
     load_language
     
-    if USE_DIALOGUE_FILES
+    if FileTest.exist?("#{DIALOGUE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
       @dialogues = ENABLE_ENCRYPTION ?
         load_data("Data/#{DIALOGUE_FILE_PREFIX}#{@language}.rvdata2") : 
         load_dialogues(@language)
     end
-    if USE_DATABASE_FILES
+    if FileTest.exist?("#{DATABASE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
       @database = ENABLE_ENCRYPTION ?
         load_data("Data/#{DATABASE_FILE_PREFIX}#{language}.rvdata2") :
         load_database(@language)
@@ -751,14 +750,22 @@ module LanguageFileSystem
   #   and common events in a predefined directory
   #--------------------------------------------------------------------------
   def self.extract_all_data
-    Dir.mkdir(EXTRACTED_DIR_NAME) unless Dir.exists?(EXTRACTED_DIR_NAME)
-    Dir.mkdir(EXTRACTED_DIR_NAME + "/Data") unless 
-      Dir.exists?(EXTRACTED_DIR_NAME + "/Data")
-    
-    # Event extraction and conversion
-    extract_events
-    # Database extraction and conversion
-    extract_database
+    if Dir.exists?(EXTRACTED_DIR_NAME)
+      msgbox "The '#{EXTRACTED_DIR_NAME}' directory already exists, so it seems your game text\n" +
+             "has already been extracted. Please delete or move it to be able to execute the extraction."
+    else
+      Dir.mkdir(EXTRACTED_DIR_NAME)
+      Dir.mkdir(EXTRACTED_DIR_NAME + "/Data")
+      
+      # Event extraction and conversion
+      extract_events
+      # Database extraction and conversion
+      extract_database
+      
+      msgbox "All game text has been extracted and modified game files\n" +
+             "have been created. They are in the '#{EXTRACTED_DIR_NAME}' directory.\n" +
+             "MAKE SURE TO BACKUP YOUR OLD FILES BEFORE USING THE GENERATED ONES!"
+    end
   end
   
   #--------------------------------------------------------------------------
@@ -784,14 +791,14 @@ module LanguageFileSystem
   end
 
   #--------------------------------------------------------------------------
-  # * Get text content defined in the dialoue text file
+  # * Get text content defined in the dialogue text file
   #--------------------------------------------------------------------------
   def self.get_dialogue(id)
     @dialogues[id] ? @dialogues[id][:text] : nil
   end
 
   #--------------------------------------------------------------------------
-  # * Show a message defined in the dialoue text file
+  # * Show a message defined in the dialogue text file
   #--------------------------------------------------------------------------
   def self.show_dialogue(id)
     data = LanguageFileSystem::dialogues[id]
@@ -1192,6 +1199,7 @@ module LanguageFileSystem
       dl_file = open(EXTRACTED_DIR_NAME + "/Dialogues.rvtext", "w")
       db_file = open(EXTRACTED_DIR_NAME + "/DatabaseText.rvtext", "w")
       begin
+        db_file.write("# LFS DATABASE VERSION #{CURRENT_VERSION}\n")
         # Extract and convert all map events
         Dir.glob('Data/Map???.rvdata2').each { |m|
           map_id = m[8..10]
@@ -1223,6 +1231,17 @@ module LanguageFileSystem
         }
         save_data(common_events, EXTRACTED_DIR_NAME + 
                                  "/Data/CommonEvents.rvdata2")
+
+        # Extract and convert all battle events
+        troops = load_data('Data/Troops.rvdata2')
+        troops.each do |t|
+          next unless t
+          t.pages.each_with_index do |page, page_id|
+            extract_page(BATTLE_EVENT_PREFIX, t.id, t.name, page, page_id,
+                         dl_file, db_file)
+          end
+        end
+        save_data(troops, EXTRACTED_DIR_NAME + '/Data/Troops.rvdata2')
       ensure
         dl_file.close
         db_file.close
@@ -1441,16 +1460,14 @@ class Game_Message
   #--------------------------------------------------------------------------
   alias lfs_add add
   def add(text)
-    if LanguageFileSystem::USE_DIALOGUE_FILES
-      if m = LanguageFileSystem::DIALOGUE_CODE.match(text)
-        line = LanguageFileSystem::get_dialogue(m[1])
-        if line
-          @texts = []
-          line.split("\n").each { |l|
-            lfs_add(l)
-          }
-          @replaced = true
-        end
+    if m = LanguageFileSystem::DIALOGUE_CODE.match(text)
+      line = LanguageFileSystem::get_dialogue(m[1])
+      if line
+        @texts = []
+        line.split("\n").each { |l|
+          lfs_add(l)
+        }
+        @replaced = true
       end
     end
     lfs_add(text) unless @replaced
@@ -1485,14 +1502,12 @@ class Game_Interpreter
   alias lfs_setup_choices setup_choices
   def setup_choices(params)
     choices = Array.new(params[0])
-    if LanguageFileSystem::USE_DIALOGUE_FILES
-      (0...choices.length).each { |i|
-        if m = LanguageFileSystem::DIALOGUE_CODE.match(choices[i])
-          line = LanguageFileSystem::get_dialogue(m[1])
-          choices[i] = line.split("\n")[0] if line
-        end
-      }
-    end
+    (0...choices.length).each { |i|
+      if m = LanguageFileSystem::DIALOGUE_CODE.match(choices[i])
+        line = LanguageFileSystem::get_dialogue(m[1])
+        choices[i] = line.split("\n")[0] if line
+      end
+    }
     lfs_setup_choices([choices] + params[1..-1])
   end
   
@@ -1531,7 +1546,7 @@ end
 # Adds support for language-dependent bitmaps.
 #
 # Changes:
-#   alias: setup_choices
+#   alias: load_bitmap
 #==============================================================================
 module Cache
 
@@ -1539,15 +1554,14 @@ module Cache
     alias lfs_load_bitmap load_bitmap
   end
   def self.load_bitmap(folder_name, filename, hue = 0)
-    if LanguageFileSystem::USE_PICTURE_SUPPORT
-      def_lang = LanguageFileSystem::DEFAULT_LANGUAGE
-      lang = LanguageFileSystem::language
-      # Checks if the Picture is language dependent (has DefaultLanguageName as
-      # suffix and if the current language is different
-      if lang != def_lang && filename.end_with?(def_lang.to_s)
-         filename[def_lang.to_s] = lang.to_s
-      end
+    def_lang = LanguageFileSystem::DEFAULT_LANGUAGE
+    lang = LanguageFileSystem::language
+    # Checks if the Picture is language dependent (has DefaultLanguageName as
+    # suffix and if the current language is different
+    if lang != def_lang && filename.end_with?(def_lang.to_s)
+      filename[def_lang.to_s] = lang.to_s
     end
+
     lfs_load_bitmap(folder_name, filename, hue)
   end
   
@@ -1580,13 +1594,10 @@ class Game_Actor
   #--------------------------------------------------------------------------
   def name
     return actor.name unless @name
-    if LanguageFileSystem::USE_DATABASE_FILES
-      if m = LanguageFileSystem::NAME_CODE.match(@name)
-        result = LanguageFileSystem::database[:names][m[1].to_sym]
-      end
+    if m = LanguageFileSystem::NAME_CODE.match(@name)
+      result = LanguageFileSystem::database[:names][m[1].to_sym]
     end
-    result = @name unless result
-    result
+    result ||= @name
   end
   
   #--------------------------------------------------------------------------
@@ -1594,13 +1605,10 @@ class Game_Actor
   #--------------------------------------------------------------------------
   def nickname
     return actor.nickname unless @nickname
-    if LanguageFileSystem::USE_DATABASE_FILES
-      if m = LanguageFileSystem::NAME_CODE.match(@nickname)
-        result = LanguageFileSystem::database[:names][m[1].to_sym]
-      end
+    if m = LanguageFileSystem::NAME_CODE.match(@nickname)
+      result = LanguageFileSystem::database[:names][m[1].to_sym]
     end
-    result = @nickname unless result
-    result
+    result ||= @nickname
   end
   
 end
@@ -1631,10 +1639,10 @@ class RPG::BaseItem
   ["name", "description", "note"].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
-      if LanguageFileSystem::USE_DATABASE_FILES
-        result = LanguageFileSystem::database[SUBCLASS_KEYS[self.class]][var.to_sym]
-        result = result[@id] if result
-      end
+      result = LanguageFileSystem::database[SUBCLASS_KEYS[self.class]]
+      result = result[var.to_sym] if result
+      result = result[@id] if result
+      
       result ||= instance_variable_get("@#{var}")
     end
   end
@@ -1658,10 +1666,10 @@ class RPG::Actor < RPG::BaseItem
   ["nickname"].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
-      if LanguageFileSystem::USE_DATABASE_FILES
-        result = LanguageFileSystem::database[:actors][var.to_sym]
-        result = result[@id] if result
-      end
+      result = LanguageFileSystem::database[:actors]
+      result = result[var.to_sym] if result
+      result = result[@id] if result
+      
       result ||= instance_variable_get("@#{var}")
     end
   end
@@ -1685,10 +1693,10 @@ class RPG::Class < RPG::BaseItem
   ["learnings"].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
-      if LanguageFileSystem::USE_DATABASE_FILES
-        result = LanguageFileSystem::database[:classes][var.to_sym]
-        result = result[@id] if result
-      end
+      result = LanguageFileSystem::database[:classes]
+      result = result[var.to_sym] if result
+      result = result[@id] if result
+      
       result ||= instance_variable_get("@#{var}")
     end
   end
@@ -1712,10 +1720,10 @@ class RPG::Skill < RPG::UsableItem
   ["message1", "message2"].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
-      if LanguageFileSystem::USE_DATABASE_FILES
-        result = LanguageFileSystem::database[:skills][var.to_sym]
-        result = result[@id] if result
-      end
+      result = LanguageFileSystem::database[:skills]
+      result = result[var.to_sym] if result
+      result = result[@id] if result
+
       result ||= instance_variable_get("@#{var}")
     end
   end
@@ -1739,10 +1747,10 @@ class RPG::State < RPG::BaseItem
   ["message1", "message2", "message3", "message4"].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
-      if LanguageFileSystem::USE_DATABASE_FILES
-        result = LanguageFileSystem::database[:states][var.to_sym]
-        result = result[@id] if result
-      end
+      result = LanguageFileSystem::database[:states]
+      result = result[var.to_sym] if result
+      result = result[@id] if result
+        
       result ||= instance_variable_get("@#{var}")
     end
   end
@@ -1768,9 +1776,9 @@ class RPG::System
   ["game_title", "currency_unit"].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
-      if LanguageFileSystem::USE_DATABASE_FILES
-        result = LanguageFileSystem::database[:system][var.to_sym]
-      end
+      result = LanguageFileSystem::database[:system]
+      result = result[var.to_sym] if result
+
       result ||= instance_variable_get("@#{var}")
     end
   end
@@ -1781,9 +1789,9 @@ class RPG::System
   ["elements", "skill_types", "weapon_types", "armor_types"].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
-      if LanguageFileSystem::USE_DATABASE_FILES
-        return LanguageFileSystem::database[:types][var.to_sym]
-      end
+      result = LanguageFileSystem::database[:types]
+      return result[var.to_sym] if result
+
       instance_variable_get("@#{var}")
     end
   end
@@ -1807,9 +1815,9 @@ class RPG::System::Terms
   ["basic", "params", "etypes", "commands"].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
-      if LanguageFileSystem::USE_DATABASE_FILES
-        return LanguageFileSystem::database[:terms][var.to_sym]
-      end
+      result = LanguageFileSystem::database[:terms]
+      return result[var.to_sym] if result
+
       instance_variable_get("@#{var}")
     end
   end
@@ -1833,10 +1841,10 @@ class RPG::Map
   ["display_name", "note"].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
-      if LanguageFileSystem::USE_DATABASE_FILES
-        result = LanguageFileSystem::database[:maps][var.to_sym]
-        result = result[$game_map.map_id] if result
-      end
+      result = LanguageFileSystem::database[:maps]
+      result = result[var.to_sym] if result
+      result = result[$game_map.map_id] if result
+
       result ||= instance_variable_get("@#{var}")
     end
   end
