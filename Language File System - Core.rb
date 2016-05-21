@@ -529,6 +529,15 @@ $imported[:LanguageFileSystem_Core] = true
 # "Dialogues.rvtext" in your project folder with the ones from the
 # Extracted-Folder, so the text content can be found by the script.
 #
+# EXTRACTING A SECOND TIME: 
+#   If you extract an already extracted game again, you need to ADD the 
+#   generated entries of your Dialogues.rvtext to your old Dialogues.rvtext.
+#
+#   There is not yet a smart re-extraction mechanism for the database,
+#   therefore it's probably easier to add new entries manually to your first 
+#   extracted DatabaseText.rvtext than pick out the new ones from the newly
+#   extracted file.
+#
 #------------------------------------------------------------------------------
 # 3.5. Language-dependent pictures
 #------------------------------------------------------------------------------
