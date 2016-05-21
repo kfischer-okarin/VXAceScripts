@@ -590,6 +590,8 @@ $imported[:LanguageFileSystem_Core] = true
 #   1.4.1:
 #     - Bugfix: Fixed invalid id creation for map display_name and note 
 #               extraction.
+#     - Bugfix: Extracting a game a second time does not destroy choice
+#               commands anymore.
 #   1.4:
 #     - Added detailed error log for database file errors
 #   1.3.1:
@@ -1331,7 +1333,10 @@ module LanguageFileSystem
             dialogue_file.write(cmd.parameters[0] + "\n")
           when 102 # Show Choices...
             # Ignore if already converted
-            next if cmd.parameters[0].any? { |c| DIALOGUE_CODE =~ c }
+            if cmd.parameters[0].any? { |c| DIALOGUE_CODE =~ c }
+              new_list << cmd
+              next
+            end
             new_choices = []
             cmd.parameters[0].each { |choice|
               # Generate Text ID (max 39 chars)
