@@ -1,8 +1,8 @@
 #==============================================================================
 # 
 # Language File System - Core Script
-# Version 1.3.1
-# Last Update: March 8th, 2014
+# Version 1.4
+# Last Update: May 21st, 2016
 # Author: DerTraveler (dertraveler [at] gmail.com)
 #
 #==============================================================================
@@ -578,6 +578,8 @@ $imported[:LanguageFileSystem_Core] = true
 # 5. Changelog
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 
+#   1.4:
+#     - Added detailed error log for database file errors
 #   1.3.1:
 #     - Bugfix: Battle Events are now extracted too (Thanks to masterdragonson
 #               for pointing it out)
