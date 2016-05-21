@@ -1,7 +1,7 @@
 #==============================================================================
 # 
 # Language File System - Core Script
-# Version 1.4
+# Version 1.4.1
 # Last Update: May 21st, 2016
 # Author: DerTraveler (dertraveler [at] gmail.com)
 #
@@ -587,6 +587,9 @@ $imported[:LanguageFileSystem_Core] = true
 # 5. Changelog
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 
+#   1.4.1:
+#     - Bugfix: Fixed invalid id creation for map display_name and note 
+#               extraction.
 #   1.4:
 #     - Added detailed error log for database file errors
 #   1.3.1:
