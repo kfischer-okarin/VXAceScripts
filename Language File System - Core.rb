@@ -593,6 +593,8 @@ $imported[:LanguageFileSystem_Core] = true
 #     - Bugfix: Extracting a game a second time does not destroy choice
 #               commands anymore.
 #     - Bugfix: Fixed learnings (they were broken all the time).
+#     - Bugfix: Extracting map notes and display names now works properly.
+#     - Don't extract empty names anymore
 #   1.4:
 #     - Added detailed error log for database file errors
 #   1.3.1:
@@ -1248,15 +1250,12 @@ module LanguageFileSystem
         Dir.glob('Data/Map???.rvdata2').each { |m|
           map_id = m[8..10]
           map = load_data(m)
-          unless map.display_name.empty?
-            db_file.write("\n")
-            db_file.write("<<maps/%d/display_name>>\n" % map_id.to_i)
-            db_file.write(map.display_name + "\n")
-          end
-          unless map.note.empty?
-            db_file.write("\n")
-            db_file.write("<<maps/%d/note>>\n" % map_id.to_i)
-            db_file.write(map.note.gsub("\r", "") + "\n")
+          [:display_name, :note].each do |attribute|
+            unless map.instance_variable_get("@#{attribute}").empty?
+              db_file.write("\n")
+              db_file.write("<<maps/%d/#{attribute}>>\n" % map_id.to_i)
+              db_file.write(map.instance_variable_get("@#{attribute}").gsub("\r", "") + "\n")
+            end
           end
           map.events.values.each { |ev|
             ev.pages.each_with_index { |page, page_id|
@@ -1373,7 +1372,7 @@ module LanguageFileSystem
           when 405 # Show Scrolling Text...
             dialogue_file.write(cmd.parameters[0] + "\n")
           when 320, 324 # Change Name... / Change Nickname...
-            unless NAME_CODE =~ cmd.parameters[1]
+            unless NAME_CODE =~ cmd.parameters[1] || cmd.parameters[1].empty?
               name_id = cmd.parameters[1].gsub(" ", "_").downcase
               new_list << RPG::EventCommand.new(320, cmd.indent,
                           [cmd.parameters[0]] + ["\\name[#{name_id}]"])
