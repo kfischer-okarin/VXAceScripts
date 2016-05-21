@@ -1244,12 +1244,12 @@ module LanguageFileSystem
           map = load_data(m)
           unless map.display_name.empty?
             db_file.write("\n")
-            db_file.write("<<maps/%d:display_name>>\n" % map_id.to_i)
+            db_file.write("<<maps/%d/display_name>>\n" % map_id.to_i)
             db_file.write(map.display_name + "\n")
           end
           unless map.note.empty?
             db_file.write("\n")
-            db_file.write("<<maps/%d:note>>\n" % map_id.to_i)
+            db_file.write("<<maps/%d/note>>\n" % map_id.to_i)
             db_file.write(map.note.gsub("\r", "") + "\n")
           end
           map.events.values.each { |ev|
