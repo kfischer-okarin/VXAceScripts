@@ -943,8 +943,7 @@ module LanguageFileSystem
     def new_database_hash
       result = {:actors    => {:name => {}, :description => {}, :note => {},
                                   :nickname => {}}, 
-                :classes   => {:name => {}, :description => {}, :note => {},
-                               :learnings => {}},
+                :classes   => {:name => {}, :description => {}, :note => {}},
                 :skills    => {:name => {}, :description => {}, :note => {},
                                :message1 => {}, :message2 => {}}, 
                 :items     => {:name => {}, :description => {}, :note => {}},
@@ -1168,6 +1167,7 @@ module LanguageFileSystem
     end
     
     MISSING_PARAM_MSG = "Missing parameter(s) for %s"
+    INVALID_ID_MSG = "Invalid ID '%s' - must be number!"
     
   #--------------------------------------------------------------------------
   # * Put read data into the database hash
@@ -1180,6 +1180,7 @@ module LanguageFileSystem
           db[group.to_sym][param1.to_sym] = line
         when "types", "terms"
           raise MISSING_PARAM_MSG % group unless param1 && param2
+          raise INVALID_ID_MSG % param2 unless /\d+/ =~ param2
           db[group.to_sym][param1.to_sym][param2.to_i] = line
         when "constants"
           raise MISSING_PARAM_MSG % group unless param1 && param2
@@ -1187,14 +1188,13 @@ module LanguageFileSystem
           db[:constants][param1.to_sym][param2.to_sym] = line
         else
           if group == "classes" && param2 == "learnings"
-            learn_hash = db[group.to_sym][param2.to_sym]
-            class_id = param1.to_i
-            # Create class learnings array copy
-            learn_hash[class_id] ||= $data_classes[class_id].
-              instance_variable_get("@learnings").clone
-            learn_hash[class_id][param3.to_i].note = line
+            raise MISSING_PARAM_MSG % "#{group}/#{param1}/#{param2}" unless param3
+            raise INVALID_ID_MSG % param1 unless /\d+/ =~ param1
+            raise INVALID_ID_MSG % param3 unless /\d+/ =~ param3
+            $data_classes[param1.to_i].learnings[param3.to_i].note = line
           else
             raise MISSING_PARAM_MSG % group unless param1 && param2
+            raise INVALID_ID_MSG % param1 unless /\d+/ =~ param1
             raise "Unknown database group '#{group}'" unless db[group.to_sym]
             raise "Unknown parameter '#{param2}' for database group '#{group}'" unless db[group.to_sym][param2.to_sym]
             db[group.to_sym][param2.to_sym][param1.to_i] = line
@@ -1377,7 +1377,7 @@ module LanguageFileSystem
               new_list << RPG::EventCommand.new(320, cmd.indent,
                           [cmd.parameters[0]] + ["\\name[#{name_id}]"])
               database_file.write("\n")
-              database_file.write("<<names:#{name_id}>>\n")
+              database_file.write("<<names/#{name_id}>>\n")
               database_file.write(cmd.parameters[1] + "\n")
             end
           else
@@ -1407,7 +1407,7 @@ module LanguageFileSystem
                 learnings.each_with_index { |l, i|
                   unless l.note.empty?
                     f.write("\n")
-                    f.write("<<classes/%d/learnings:%d>>\n" % [obj.id, i])
+                    f.write("<<classes/%d/learnings/%d>>\n" % [obj.id, i])
                     f.write(l.note.gsub("\r", "") + "\n")
                   end
                 }
@@ -1713,33 +1713,6 @@ class RPG::Actor < RPG::BaseItem
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
       result = LanguageFileSystem::database[:actors]
-      result = result[var.to_sym] if result
-      result = result[@id] if result
-      
-      result ||= instance_variable_get("@#{var}")
-    end
-  end
-  
-end
-
-#==============================================================================
-# ** RPG::Class
-#------------------------------------------------------------------------------
-# Reads learning notes from language file hash instead of using the instance 
-# variable if a corresponding entry exists.
-#
-# Changes:
-#   overwrite: getter for @learning
-#==============================================================================
-class RPG::Class < RPG::BaseItem
-    
-  #--------------------------------------------------------------------------
-  # * Read attribute from language file hash (Metaprogramming ninjutsu :D)
-  #--------------------------------------------------------------------------
-  ["learnings"].each do |var|
-    alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
-    define_method("#{var}") do
-      result = LanguageFileSystem::database[:classes]
       result = result[var.to_sym] if result
       result = result[@id] if result
       
