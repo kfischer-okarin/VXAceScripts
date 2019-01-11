@@ -1,1 +1,2 @@
+--require lib/spec_helper
 --require lib/rpg_maker_mock
