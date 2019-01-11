@@ -5,3 +5,7 @@ services:
     working_dir: /usr/src
     volumes:
       - .:/usr/src
+      - bundle:/usr/local/bundle
+
+volumes:
+  bundle:
