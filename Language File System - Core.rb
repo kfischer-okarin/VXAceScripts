@@ -1,5 +1,5 @@
 #==============================================================================
-# 
+#
 # Language File System - Core Script
 # Version 1.4.1
 # Last Update: May 21st, 2016
@@ -24,7 +24,7 @@ $imported[:LanguageFileSystem_Core] = true
 #       2.2.1. Examples
 #       2.2.2. Changing custom scripts
 #   3. More Features
-#     3.1. Changing the names of actors 
+#     3.1. Changing the names of actors
 #     3.2. Changing the language
 #     3.3. Encrypting your text files
 #     3.4. Extracting all your text content
@@ -43,7 +43,7 @@ $imported[:LanguageFileSystem_Core] = true
 # files. This includes messages, choices, and any database text.
 # With this script it is much easier to manage your in-game text content, since
 # all of your dialogue is at one central place instead of being spread over
-# hundreds and thousands of events. 
+# hundreds and thousands of events.
 # Another major use is the ability to translate your game, without the need to
 # create a new project for each language and edit every field in the database.
 #
@@ -59,10 +59,10 @@ $imported[:LanguageFileSystem_Core] = true
 #       language file in your game. If you use more than one language file, the
 #       names will have the language name as suffix.
 #
-#       Example: Suppose, in the options below you have defined :German and 
-#                :English as languages for your game. Thus the filenames would 
+#       Example: Suppose, in the options below you have defined :German and
+#                :English as languages for your game. Thus the filenames would
 #                be DialoguesGerman.rvtext and DialoguesEnglish.rvtxt and
-#                respectively DatabaseTextGerman.rvtext and 
+#                respectively DatabaseTextGerman.rvtext and
 #                DatabaseTextEnglish.rvtext.
 #
 #------------------------------------------------------------------------------
@@ -84,8 +84,8 @@ $imported[:LanguageFileSystem_Core] = true
 #   ...
 #   [Your Text]
 #
-# [Text ID] 
-#   This should be an unique string that will be used in the RPG Maker to load 
+# [Text ID]
+#   This should be an unique string that will be used in the RPG Maker to load
 #   your text block.
 #
 # [Option Tag]
@@ -101,15 +101,15 @@ $imported[:LanguageFileSystem_Core] = true
 #       [Filename]
 #         The name of the Faceset file, eg. Actor1
 #       [Index]
-#         The index in the Faceset of the face that should be used. 
+#         The index in the Faceset of the face that should be used.
 #         Ranges from 0-7.
-#       
+#
 #       If you omit this tag, the message won't have a face.
 #
 #     <<position:[Place]>>
 #       [Place]
 #         Specifies the position of the message window.
-#         Can be either: top, middle or bottom (default). 
+#         Can be either: top, middle or bottom (default).
 #
 #     <<background:[Style]>>
 #       [Style]
@@ -126,7 +126,7 @@ $imported[:LanguageFileSystem_Core] = true
 #       If this tag is added, fast forwarding by pressing the OK button is
 #       disabled.
 #
-# [Your Text] 
+# [Your Text]
 #   This is the text that will be shown in the message or choice. This can of
 #   course cover multiple lines. Everything until the next <<...>> tag will
 #   belong to that [Text ID]. But excessive empty lines at the end will be
@@ -140,7 +140,7 @@ $imported[:LanguageFileSystem_Core] = true
 # for more examples.
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 
+#
 # <<Introduction>>
 # <<scroll_speed: 4>>
 # Once upon a time there was a kingdom which was
@@ -164,7 +164,7 @@ $imported[:LanguageFileSystem_Core] = true
 # Prepare to die a slow and horrible death!
 # HAHAHAHAHAHAHAHAHA!
 #
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 #------------------------------------------------------------------------------
 # 2.1.2. How to include the text
@@ -175,7 +175,7 @@ $imported[:LanguageFileSystem_Core] = true
 #   There are two ways to include your predefined textblocks:
 #
 #   1. You can enter the following message code into a "Show Text..."-command:
-#     
+#
 #        \dialogue[Text ID]        (NOTE: You have to enter the [] characters!)
 #
 #      If the Text ID exists, the content of the message will be replaced with
@@ -194,7 +194,7 @@ $imported[:LanguageFileSystem_Core] = true
 #      It uses the Option Tag information specified in the text file.
 #
 # Scrolling Text:
-#   
+#
 #   You can either enter the \dialogue[...] message code into the text field
 #   of the "Show Scrolling Text..." event command.
 #   Alternatively you can use an script call, similar to the one for normal
@@ -215,18 +215,18 @@ $imported[:LanguageFileSystem_Core] = true
 # 2.1.3. Additional details
 #------------------------------------------------------------------------------
 #
-# - If you define a multiline string for a choice option, everything after the 
+# - If you define a multiline string for a choice option, everything after the
 #   first line will be ignored.
 #
-# - Your Dialogue File can be encoded in UTF-8 (e.g. if you want to create a 
+# - Your Dialogue File can be encoded in UTF-8 (e.g. if you want to create a
 #   Japanese version of your game).
 #
 # - Please note that the "Script..." event command textbox has a maximum line
 #   length of 44 characters. If you have very long Text IDs, you will have to
 #   divide and concatenate the argument with +.
-# 
+#
 #   Extreme Example:
-#     
+#
 #     show_message("this_is_a_extremely_extraor" +
 #     "dinary_long_text_id_which_has_to_be_divi" +
 #     "ded_several_times")
@@ -236,12 +236,12 @@ $imported[:LanguageFileSystem_Core] = true
 #------------------------------------------------------------------------------
 #
 # In this file you can define literally every text property, that can be entered
-# into the database of the RPG Maker. 
+# into the database of the RPG Maker.
 # Any property not defined in this file will just use the value from the
 # database.
 #
 # NOTE: Don't use multiline text properties, when the original field in RPG
-#       Maker didn't allow to enter several lines of text. Otherwise these line 
+#       Maker didn't allow to enter several lines of text. Otherwise these line
 #       breaks will be shown as strange symbols in-game.
 #
 # The format of this file is similar to the Dialogue textfiles but instead of a
@@ -270,12 +270,12 @@ $imported[:LanguageFileSystem_Core] = true
 #
 #       In addition to these, following groups have additional variables.
 #       Unless specified otherwise, they should be self-explanatory:
-#   
+#
 #         actors:
 #           - nickname
 #
 #         classes
-#           - learnings:[id] (note text field of the learned skill at position 
+#           - learnings:[id] (note text field of the learned skill at position
 #                             [id])
 #
 #         skills
@@ -283,7 +283,7 @@ $imported[:LanguageFileSystem_Core] = true
 #
 #         states
 #           - message1    (message when an actor falls into the state)
-#           - message2    (message when an enemy falls into the state) 
+#           - message2    (message when an enemy falls into the state)
 #           - message3    (message when somebody retains the state)
 #           - message4    (message when an actor loses the state)
 #
@@ -291,7 +291,7 @@ $imported[:LanguageFileSystem_Core] = true
 #         - display_name  (The name that is displayed when entering the map)
 #         - note
 #
-# Following predefined IDs change the properties in the System and Terms tab of 
+# Following predefined IDs change the properties in the System and Terms tab of
 # the database.
 #
 #   <<system/game_title>>
@@ -302,7 +302,7 @@ $imported[:LanguageFileSystem_Core] = true
 #
 #   <<types/elements:[id]>>
 #     The name of the element with the given [id].
-# 
+#
 #   <<types/skill_types/[id]>>
 #     The name of the skill type with the given [id].
 #
@@ -337,7 +337,7 @@ $imported[:LanguageFileSystem_Core] = true
 # for more examples.
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 
+#
 # <<actors/3/name>>
 # Bob
 #
@@ -400,14 +400,14 @@ $imported[:LanguageFileSystem_Core] = true
 #
 #     If any of the translations you need to do is not possible with the change
 #     of a variable or constant, but perhaps only with a method call, you can
-#     also run arbitrary Ruby code and replace some part of the code with the 
+#     also run arbitrary Ruby code and replace some part of the code with the
 #     value from the language file. The position that is to be translated is
 #     marked by %s. %s will be replaced with your value.
 #
 #     EXAMPLE:
 #
-#     Let's imagine, you have English and Japanese translations of your game, 
-#     but the Japanese characters in your custom menu script are hard to read 
+#     Let's imagine, you have English and Japanese translations of your game,
+#     but the Japanese characters in your custom menu script are hard to read
 #     when your font style is bold. For some reason the creator of the menu
 #     script has only provided a set_font_style method to change the font style
 #     of the menu.
@@ -422,8 +422,8 @@ $imported[:LanguageFileSystem_Core] = true
 #       <<eval/CustomMenuScript::set_font_style(%s)>>
 #       :bold
 #
-#     NOTE: If your script call needs any quotation marks you have to insert 
-#           them either in the ID or in the value. They are not added 
+#     NOTE: If your script call needs any quotation marks you have to insert
+#           them either in the ID or in the value. They are not added
 #           automatically.
 #
 #==============================================================================
@@ -440,14 +440,14 @@ $imported[:LanguageFileSystem_Core] = true
 # EXAMPLE:
 #
 #   Let's suppose you want to change the name of Gandalf to "Gandalf, the White"
-#   or "Gandalf, der Weiße" depending on the language of your game.
+#   or "Gandalf, der Weiï¿½e" depending on the language of your game.
 #
 #   In your DatabaseTextEnglish.rvtext and DatabaseTextGerman.rvtext you create
 #   an entry that looks like this:
 #
 #     English:                               German:
 #     <<names/gandalf_newname>>              <<names/gandalf_newname>>
-#     Gandalf, the White                     Gandalf, der Weiße
+#     Gandalf, the White                     Gandalf, der Weiï¿½e
 #
 #   Afterwards you can just use the normal "Change name..." event command, but
 #   instead of your name you just enter "\name[gandalf_newname]" into the text
@@ -463,8 +463,8 @@ $imported[:LanguageFileSystem_Core] = true
 #   LanguageFileSystem::set_language(language_name)
 #
 # The change will be effective until the language is changed again even when
-# the game is closed. 
-# The last active language will be saved in the "Game.ini" in the project 
+# the game is closed.
+# The last active language will be saved in the "Game.ini" in the project
 # directory. The entry is called "Language". If there is no entry the language
 # specified in DEFAULT_LANGUAGE will be used.
 #
@@ -490,7 +490,7 @@ $imported[:LanguageFileSystem_Core] = true
 #
 # After that the encrypted files were created in the Data-directory. Now you can
 # undo all the changes made to the game to call the command and move the .rvtext
-# files out of your project directory (I guess you shouldn't delete them ;) - 
+# files out of your project directory (I guess you shouldn't delete them ;) -
 # we don't want your hard translation work to be wasted, right?) to some other
 # place.
 # The last thing you have to do before compressing your game, is setting the
@@ -521,7 +521,7 @@ $imported[:LanguageFileSystem_Core] = true
 #
 # After you hopefully made this backup copy, you should close the RPG Maker VX
 # Ace and move the contents of the "Extracted/Data" folder into your original
-# data folder. Next time you open your project in the RPG Maker, every event 
+# data folder. Next time you open your project in the RPG Maker, every event
 # should now use script alls instead of messages and have replaced every
 # choice and name change text with the corresponding message codes.
 #
@@ -529,12 +529,12 @@ $imported[:LanguageFileSystem_Core] = true
 # "Dialogues.rvtext" in your project folder with the ones from the
 # Extracted-Folder, so the text content can be found by the script.
 #
-# EXTRACTING A SECOND TIME: 
-#   If you extract an already extracted game again, you need to ADD the 
+# EXTRACTING A SECOND TIME:
+#   If you extract an already extracted game again, you need to ADD the
 #   generated entries of your Dialogues.rvtext to your old Dialogues.rvtext.
 #
 #   There is not yet a smart re-extraction mechanism for the database,
-#   therefore it's probably easier to add new entries manually to your first 
+#   therefore it's probably easier to add new entries manually to your first
 #   extracted DatabaseText.rvtext than pick out the new ones from the newly
 #   extracted file.
 #
@@ -548,9 +548,9 @@ $imported[:LanguageFileSystem_Core] = true
 #
 # To make a picture multilingual, you need to create a translated copy for each
 # language and rename it, so it ends with the respective language name. The
-# names must be written exactly as specified in the LANGUAGES option (though 
+# names must be written exactly as specified in the LANGUAGES option (though
 # without the : character).
-# The picture you use in the RPG Make must be the version of the default 
+# The picture you use in the RPG Make must be the version of the default
 # language specified in the DEFAULT_LANGUAGE option.
 #
 # NOTE: This also works for titlescreens, battle backgrounds and every other
@@ -570,25 +570,25 @@ $imported[:LanguageFileSystem_Core] = true
 #==============================================================================
 # 4. Common issues
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 
+#
 #------------------------------------------------------------------------------
 # Your script doesn't work with Custom Message System "X"
 #------------------------------------------------------------------------------
-# Fix: 
+# Fix:
 # If the message system in question reuses the methods of the standard RPG Maker
 # message system, there is a good chance that it can still work.
 # Just paste my script ABOVE the message system script and try out again if that
 # helped.
-# 
+#
 # Known scripts where this fix is necessary:
 #  - Advanced Text System: Choice Options
 #
 #==============================================================================
 # 5. Changelog
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 
+#
 #   1.4.1:
-#     - Bugfix: Fixed invalid id creation for map display_name and note 
+#     - Bugfix: Fixed invalid id creation for map display_name and note
 #               extraction and learnings.
 #     - Bugfix: Extracting a game a second time does not destroy choice
 #               commands anymore.
@@ -605,14 +605,14 @@ $imported[:LanguageFileSystem_Core] = true
 #               particular text is accessed.
 #     - Bugfix: Extracting all data now produces database files with the current
 #               version number.
-#     - Removed the useless USE_XXXX flags. All the features now just work 
+#     - Removed the useless USE_XXXX flags. All the features now just work
 #       depending on whether the respective files exist and/or there is an
 #       entry or not in that file.
 #     - Added alert dialogues to the extraction.
 #   1.3:
 #     - Bugfix: Encryption of data now really encrypts each of the languages
 #               into the correct file.
-#     - Bugfix: Encryption of the up-to-date language files now also works, 
+#     - Bugfix: Encryption of the up-to-date language files now also works,
 #               when the ENABLE_ENCRYPTION flag is set.
 #     - Fixed the Game.ini writing method that produced excessive newlines
 #     - Updated the file format for the DatabaseText.rvdata. It now uses '/'
@@ -627,7 +627,7 @@ $imported[:LanguageFileSystem_Core] = true
 #     - Added support for class skill learning notes
 #     - Major overhaul of the documentation
 #     - New Feature: Added the possibility to define all message options in the
-#                    language file and thus to call the whole message via script 
+#                    language file and thus to call the whole message via script
 #                    call. This works both for normal messages as well as for
 #                    scrolling texts.
 #     - New Feature: Now you can extract ALL of your in-game text into the
@@ -637,7 +637,7 @@ $imported[:LanguageFileSystem_Core] = true
 #                    have to change all your events manually.
 #   1.1:
 #     - Rewriting of some logic to increase compatibility
-#     - New Feature: Last used language is now saved in Game.ini instead of a 
+#     - New Feature: Last used language is now saved in Game.ini instead of a
 #                    separate file
 #     - Bugfix: USE_DIALOGUE_FILES and USE_DATABASE_FILES now also work
 #               when setting a new language
@@ -691,52 +691,52 @@ module LanguageFileSystem
   # LanguageFileSystem::encrypt (see Feature Description above) beforehand.
   #---------------------------------------------------------------------------
   ENABLE_ENCRYPTION = false
-  
+
 ###############################################################################
 #
 # Do not edit past this point, if you have no idea, what you're doing ;)
 #
 ###############################################################################
-  
+
   CURRENT_VERSION = 13
 
-  DIALOGUE_FILE_PREFIX = "Dialogues"
-  
-  DATABASE_FILE_PREFIX = "DatabaseText"
-  
-  FILE_EXTENSION = "rvtext"
-  
+  DIALOGUE_FILE_PREFIX = 'Dialogues'
+
+  DATABASE_FILE_PREFIX = 'DatabaseText'
+
+  FILE_EXTENSION = 'rvtext'
+
   DIALOGUE_CODE = /\\dialogue\[([^\]]+)\]/
-  
+
   NAME_CODE = /\\name\[([^\]]+)\]/
-  
+
   STRING_ID = /^<<([^>]+)>>$/
-  
+
   DB_HEADER = /# LFS DATABASE VERSION (\d+)/
-  
-  EXTRACTED_DIR_NAME = "Extracted"
-  
-  EVENT_PREFIX = "%s:%.9s/"
-  
-  COMMON_EVENT_PREFIX = "Common Events/"
-  
-  BATTLE_EVENT_PREFIX = "Battle Events/"
-  
+
+  EXTRACTED_DIR_NAME = 'Extracted'
+
+  EVENT_PREFIX = '%s:%.9s/'
+
+  COMMON_EVENT_PREFIX = 'Common Events/'
+
+  BATTLE_EVENT_PREFIX = 'Battle Events/'
+
   @dialogues = {}
-  
+
   @database = {}
-  
+
   @language = DEFAULT_LANGUAGE
-  
+
   #--------------------------------------------------------------------------
   # * Load language files of current language
   #--------------------------------------------------------------------------
   def self.initialize
     load_language
-    
+
     if FileTest.exist?("#{DIALOGUE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
       @dialogues = ENABLE_ENCRYPTION ?
-        load_data("Data/#{DIALOGUE_FILE_PREFIX}#{@language}.rvdata2") : 
+        load_data("Data/#{DIALOGUE_FILE_PREFIX}#{@language}.rvdata2") :
         load_dialogues(@language)
     end
     if FileTest.exist?("#{DATABASE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
@@ -747,14 +747,14 @@ module LanguageFileSystem
       redefine_assignments
     end
   end
-  
+
   #--------------------------------------------------------------------------
   # * Current game language
   #--------------------------------------------------------------------------
   def self.language
     @language
   end
-  
+
   #--------------------------------------------------------------------------
   # * Set the game language
   #--------------------------------------------------------------------------
@@ -763,7 +763,7 @@ module LanguageFileSystem
     save_language
     initialize
   end
-  
+
   #--------------------------------------------------------------------------
   # * Extract all text content from the game and create copies of all maps
   #   and common events in a predefined directory
@@ -771,22 +771,22 @@ module LanguageFileSystem
   def self.extract_all_data
     if Dir.exists?(EXTRACTED_DIR_NAME)
       msgbox "The '#{EXTRACTED_DIR_NAME}' directory already exists, so it seems your game text\n" +
-             "has already been extracted. Please delete or move it to be able to execute the extraction."
+             'has already been extracted. Please delete or move it to be able to execute the extraction.'
     else
       Dir.mkdir(EXTRACTED_DIR_NAME)
       Dir.mkdir(EXTRACTED_DIR_NAME + "/Data")
-      
+
       # Event extraction and conversion
       extract_events
       # Database extraction and conversion
       extract_database
-      
+
       msgbox "All game text has been extracted and modified game files\n" +
              "have been created. They are in the '#{EXTRACTED_DIR_NAME}' directory.\n" +
-             "MAKE SURE TO BACKUP YOUR OLD FILES BEFORE USING THE GENERATED ONES!"
+             'MAKE SURE TO BACKUP YOUR OLD FILES BEFORE USING THE GENERATED ONES!'
     end
   end
-  
+
   #--------------------------------------------------------------------------
   # * Encrypt language files into .rvdata2 format
   #--------------------------------------------------------------------------
@@ -801,7 +801,7 @@ module LanguageFileSystem
       save_data(load_database, "Data/#{DATABASE_FILE_PREFIX}.rvdata2")
     end
   end
-  
+
   #--------------------------------------------------------------------------
   # * Current dialogue hash
   #--------------------------------------------------------------------------
@@ -823,26 +823,26 @@ module LanguageFileSystem
     data = LanguageFileSystem::dialogues[id]
     return unless data
     if data.has_key?(:face)
-      $game_message.face_name = data[:face].split(",")[0].strip
-      $game_message.face_index = data[:face].split(",")[1].strip.to_i
+      $game_message.face_name = data[:face].split(',')[0].strip
+      $game_message.face_index = data[:face].split(',')[1].strip.to_i
     end
     if data.has_key?(:position)
       case data[:position].strip.downcase
-        when "top"
+        when 'top'
           $game_message.position = 0
-        when "middle"
+        when 'middle'
           $game_message.position = 1
-        when "bottom"
+        when 'bottom'
           $game_message.position = 2
       end
     end
     if data.has_key?(:background)
       case data[:background].strip.downcase
-        when "normal"
+        when 'normal'
           $game_message.background = 0
-        when "dim"
+        when 'dim'
           $game_message.background = 1
-        when "transparent"
+        when 'transparent'
           $game_message.background = 2
       end
     end
@@ -891,7 +891,7 @@ module LanguageFileSystem
   def self.save(hash, filename)
     save_database_file(hash, filename)
   end
-  
+
 #==============================================================================
 # ** LanguageFileSystem (private methods)
 #------------------------------------------------------------------------------
@@ -903,7 +903,7 @@ module LanguageFileSystem
 #          extract_database
 #==============================================================================
   class << self
-    
+
     private
     GAME_INI_ENTRY = /^Language=(.+)$/
   #--------------------------------------------------------------------------
@@ -911,12 +911,12 @@ module LanguageFileSystem
   #--------------------------------------------------------------------------
     def load_language
       saved_lang = nil
-      open("Game.ini") { |f|
+      open('Game.ini') { |f|
         f.each_line { |l|
           GAME_INI_ENTRY.match(l) { |m|
             saved_lang = m[1].to_sym
             break
-          }          
+          }
         }
       }
       @language = saved_lang if saved_lang
@@ -927,7 +927,7 @@ module LanguageFileSystem
   #--------------------------------------------------------------------------
     def save_language
       content = nil
-      open("Game.ini", "r") { |f|
+      open('Game.ini', 'r') { |f|
         content = f.read
       }
       if content =~ GAME_INI_ENTRY
@@ -935,7 +935,7 @@ module LanguageFileSystem
       else
         content += "Language=#{@language}"
       end
-      open("Game.ini", "w") { |f|
+      open('Game.ini', 'w') { |f|
         f.write(content)
       }
     end
@@ -945,10 +945,10 @@ module LanguageFileSystem
   #--------------------------------------------------------------------------
     def new_database_hash
       result = {:actors    => {:name => {}, :description => {}, :note => {},
-                                  :nickname => {}}, 
+                                  :nickname => {}},
                 :classes   => {:name => {}, :description => {}, :note => {}},
                 :skills    => {:name => {}, :description => {}, :note => {},
-                               :message1 => {}, :message2 => {}}, 
+                               :message1 => {}, :message2 => {}},
                 :items     => {:name => {}, :description => {}, :note => {}},
                 :weapons   => {:name => {}, :description => {}, :note => {}},
                 :armors    => {:name => {}, :description => {}, :note => {}},
@@ -974,7 +974,7 @@ module LanguageFileSystem
       }
       result
     end
-    
+
   #--------------------------------------------------------------------------
   # * Load and return dialogue hash from a language file
   #--------------------------------------------------------------------------
@@ -984,7 +984,7 @@ module LanguageFileSystem
         id = nil
         text_started = true
         dialogue_data = {}
-        text = ""
+        text = ''
         f.each_line { |l|
           if m = STRING_ID.match(l)
             if text_started
@@ -993,16 +993,16 @@ module LanguageFileSystem
                 dialogue_data[:text] = text.rstrip
                 result[id] = dialogue_data
               end
-                
+
               # Read id and reset textblock
               dialogue_data = {}
               id = m[1]
               text_started = false
-              text = ""
+              text = ''
             else
               # Read meta tag
-              tag_data = m[1].split(":")
-              dialogue_data[tag_data[0].strip.to_sym] = 
+              tag_data = m[1].split(':')
+              dialogue_data[tag_data[0].strip.to_sym] =
                 tag_data[1] ? tag_data[1].strip : nil
             end
           else
@@ -1018,12 +1018,12 @@ module LanguageFileSystem
       }
       result
     end
-    
+
   #--------------------------------------------------------------------------
   # * Save dialogue hash to file
   #--------------------------------------------------------------------------
     def save_dialogue_file(hash, filename)
-      open(filename, "w") { |f|
+      open(filename, 'w') { |f|
         f.write("# LFS DIALOGUES VERSION #{CURRENT_VERSION}\n")
         hash.each { |id, content|
           f.write("<<#{id}>>\n")
@@ -1035,7 +1035,7 @@ module LanguageFileSystem
         }
       }
     end
-    
+
   #--------------------------------------------------------------------------
   # * Performs a version check on the database file
   #--------------------------------------------------------------------------
@@ -1044,23 +1044,23 @@ module LanguageFileSystem
       header = nil
       content = nil
       open(filename) { |f|
-        header, sep, content = f.read.partition("\n")
+        header, _, content = f.read.partition("\n")
         if m = DB_HEADER.match(header)
           version = m[1].to_i
         else
           version = 10
         end
       }
-      
+
       unless version == CURRENT_VERSION
         # Backup old file
-        open(filename + "_backup", "w") { |backup|
-          backup.write(header+"\n")
+        open(filename + '_backup', 'w') { |backup|
+          backup.write(header + "\n")
           backup.write(content)
         }
         content = convert_database_file(version, content)
         # Convert to current version
-        open(filename, "w") { |f|
+        open(filename, 'w') { |f|
           f.write("# LFS DATABASE VERSION #{CURRENT_VERSION}\n")
           f.write(content)
         }
@@ -1068,7 +1068,7 @@ module LanguageFileSystem
                "The original file was renamed to '#{filename}_backup'"
       end
     end
-    
+
     def convert_database_file(version, content)
       result = nil
       case version
@@ -1077,11 +1077,11 @@ module LanguageFileSystem
             tag = $1
             if tag =~ /^[A-Z]/
               # New format for constants
-              mod, var = tag.split(":")
+              mod, var = tag.split(':')
               "<<constants/#{mod}/#{var}>>"
             else
               # / as new separator character
-              s.gsub(":", "/")
+              s.gsub(':', '/')
             end
           }
       end
@@ -1092,15 +1092,15 @@ module LanguageFileSystem
   #--------------------------------------------------------------------------
     def load_database_file(filename)
       result = new_database_hash
-      
+
       line_number = 0
       error_line = 0
-      errors = ""
-      
+      errors = ''
+
       open(filename) { |f|
         line_name = nil
-        line = ""
-        
+        line = ''
+
         f.each_line { |l|
           line_number += 1
           if m = STRING_ID.match(l)
@@ -1111,7 +1111,7 @@ module LanguageFileSystem
             end
             line_name = m[1]
             error_line = line_number
-            line = ""
+            line = ''
           else
             line += l
           end
@@ -1122,75 +1122,75 @@ module LanguageFileSystem
           errors << "\n  #{filename}:#{error_line} - #{e.message}"
         end
       }
-      
+
       msgbox "There were errors in #{filename}:" + errors unless errors.empty?
-      
+
       result
     end
-    
+
   #--------------------------------------------------------------------------
   # * Save database hash to file
   #--------------------------------------------------------------------------
     def save_database_file(hash, filename)
-      open(filename, "w") { |f|
+      open(filename, 'w') { |f|
         f.write("# LFS DATABASE VERSION #{CURRENT_VERSION}\n")
         hash.each { |group, content|
           case group
-            when :system, :names, :variables, :eval
-              content.each { |var, value|
-                f.write("<<#{group}/#{var}>>\n")
+          when :system, :names, :variables, :eval
+            content.each { |var, value|
+              f.write("<<#{group}/#{var}>>\n")
+              f.write("#{value}\n\n")
+            }
+          when :types, :terms
+            content.each { |var, list|
+              list.each_with_index { |value, index|
+                if value.length > 0
+                  f.write("<<#{group}/#{var}/#{index}>>\n")
+                  f.write("#{value}\n\n")
+                end
+              }
+            }
+          when :constants
+            content.each { |mod, list|
+              list.each { |var, value|
+                f.write("<<#{group}/#{mod}/#{var}>>\n")
                 f.write("#{value}\n\n")
               }
-            when :types, :terms
-              content.each { |var, list|
-                list.each_with_index { |value, index|
-                  if value.length > 0
-                    f.write("<<#{group}/#{var}/#{index}>>\n")
-                    f.write("#{value}\n\n")
-                  end
-                }
+            }
+          else
+            content.each { |var, list|
+              list.each { |index, value|
+                f.write("<<#{group}/#{index}/#{var}>>\n")
+                f.write("#{value}\n\n")
               }
-            when :constants
-              content.each { |mod, list|
-                list.each { |var, value|
-                  f.write("<<#{group}/#{mod}/#{var}>>\n")
-                  f.write("#{value}\n\n")
-                }
-              }
-            else
-              content.each { |var, list|
-                list.each { |index, value|
-                  f.write("<<#{group}/#{index}/#{var}>>\n")
-                  f.write("#{value}\n\n")
-                }
-              }
-            end
+            }
+          end
         }
       }
     end
-    
-    MISSING_PARAM_MSG = "Missing parameter(s) for %s"
+
+    MISSING_PARAM_MSG = 'Missing parameter(s) for %s'
     INVALID_ID_MSG = "Invalid ID '%s' - must be number!"
-    
+
   #--------------------------------------------------------------------------
   # * Put read data into the database hash
   #--------------------------------------------------------------------------
     def put_database_entry(db, line_name, line)
-      group, param1, param2, param3 = line_name.split("/")
+      group, param1, param2, param3 = line_name.split('/')
       case group
-        when "system", "names", "variables", "eval"
+        when 'system', 'names', 'variables', 'eval'
           raise MISSING_PARAM_MSG % group unless param1
           db[group.to_sym][param1.to_sym] = line
-        when "types", "terms"
+        when 'types', 'terms'
           raise MISSING_PARAM_MSG % group unless param1 && param2
           raise INVALID_ID_MSG % param2 unless /\d+/ =~ param2
           db[group.to_sym][param1.to_sym][param2.to_i] = line
-        when "constants"
+        when 'constants'
           raise MISSING_PARAM_MSG % group unless param1 && param2
-          db[:constants][param1.to_sym] ||= {} 
+          db[:constants][param1.to_sym] ||= {}
           db[:constants][param1.to_sym][param2.to_sym] = line
         else
-          if group == "classes" && param2 == "learnings"
+          if group == 'classes' && param2 == 'learnings'
             raise MISSING_PARAM_MSG % "#{group}/#{param1}/#{param2}" unless param3
             raise INVALID_ID_MSG % param1 unless /\d+/ =~ param1
             raise INVALID_ID_MSG % param3 unless /\d+/ =~ param3
@@ -1204,11 +1204,11 @@ module LanguageFileSystem
           end
       end
     end
-    
+
     def copy_instance_array(object, array_name)
       Array.new(object.instance_variable_get("@#{array_name}"))
     end
-    
+
   #--------------------------------------------------------------------------
   # * Redefine module constants
   #--------------------------------------------------------------------------
@@ -1216,7 +1216,7 @@ module LanguageFileSystem
       @database[:constants].keys.each { |m|
         @database[:constants][m].each { |const, value|
           # Constant redefintion ninjutsu :D
-          chain = m.to_s.split("::")
+          chain = m.to_s.split('::')
           mod = chain.inject(Object) { |current, c| current.const_get(c) }
           mod = mod.is_a?(Module) ? mod : mod.class
           mod.send(:remove_const, const) if mod.const_defined?(const)
@@ -1224,7 +1224,7 @@ module LanguageFileSystem
         }
       }
     end
-    
+
   #--------------------------------------------------------------------------
   # * Redefine variables and run language dependent expressions
   #--------------------------------------------------------------------------
@@ -1232,18 +1232,18 @@ module LanguageFileSystem
       @database[:variables].each { |var, value|
         eval("#{var} = \"#{value}\"")
       }
-      
+
       @database[:eval].each { |exp, value|
         eval(exp.to_s % value)
       }
     end
-    
+
   #--------------------------------------------------------------------------
   # * Extracting the text content of all maps and map events
   #--------------------------------------------------------------------------
     def extract_events
-      dl_file = open(EXTRACTED_DIR_NAME + "/Dialogues.rvtext", "w")
-      db_file = open(EXTRACTED_DIR_NAME + "/DatabaseText.rvtext", "w")
+      dl_file = open(EXTRACTED_DIR_NAME + '/Dialogues.rvtext', 'w')
+      db_file = open(EXTRACTED_DIR_NAME + '/DatabaseText.rvtext', 'w')
       begin
         db_file.write("# LFS DATABASE VERSION #{CURRENT_VERSION}\n")
         # Extract and convert all map events
@@ -1254,26 +1254,26 @@ module LanguageFileSystem
             unless map.instance_variable_get("@#{attribute}").empty?
               db_file.write("\n")
               db_file.write("<<maps/%d/#{attribute}>>\n" % map_id.to_i)
-              db_file.write(map.instance_variable_get("@#{attribute}").gsub("\r", "") + "\n")
+              db_file.write(map.instance_variable_get("@#{attribute}").gsub("\r", '') + "\n")
             end
           end
           map.events.values.each { |ev|
             ev.pages.each_with_index { |page, page_id|
-              extract_page(EVENT_PREFIX % 
-                           [map_id, $data_mapinfos[map_id.to_i].name], 
+              extract_page(EVENT_PREFIX %
+                           [map_id, $data_mapinfos[map_id.to_i].name],
                            ev.id, ev.name, page, page_id, dl_file, db_file)
             }
           }
           save_data(map, EXTRACTED_DIR_NAME + "/Data/Map#{map_id}.rvdata2")
         }
         # Extract and convert all common events
-        common_events = load_data("Data/CommonEvents.rvdata2")
+        common_events = load_data('Data/CommonEvents.rvdata2')
         common_events.each { |ce|
-          extract_page(COMMON_EVENT_PREFIX, 
+          extract_page(COMMON_EVENT_PREFIX,
                        ce.id, ce.name, ce, 0, dl_file, db_file) if ce
         }
-        save_data(common_events, EXTRACTED_DIR_NAME + 
-                                 "/Data/CommonEvents.rvdata2")
+        save_data(common_events, EXTRACTED_DIR_NAME +
+                                 '/Data/CommonEvents.rvdata2')
 
         # Extract and convert all battle events
         troops = load_data('Data/Troops.rvdata2')
@@ -1290,12 +1290,12 @@ module LanguageFileSystem
         db_file.close
       end
     end
-    
+
     # Text ID format string
-    ID_FORMAT = "%03d:%.9s/Page %02d/%03d"
+    ID_FORMAT = '%03d:%.9s/Page %02d/%03d'
     # Convert between parameter values and tag arguments
-    BG_HASH = { 1 => "dim", 2 => "transparent" }
-    POS_HASH = { 0 => "top", 1 => "middle" }
+    BG_HASH = { 1 => 'dim', 2 => 'transparent' }
+    POS_HASH = { 0 => 'top', 1 => 'middle' }
 
   #--------------------------------------------------------------------------
   # * Extracting the event page text content
@@ -1308,12 +1308,12 @@ module LanguageFileSystem
         case cmd.code
           when 101 # Show Text...
             # Generate Text ID (max 39 chars)
-            text_id = text_id_prefix + ID_FORMAT % 
+            text_id = text_id_prefix + ID_FORMAT %
                       [event_id, event_name, page_id + 1, cmd_id]
             # Replace with Script command
-            new_list << RPG::EventCommand.new(355, 
-                                              cmd.indent, 
-                                              ["show_dialogue("])
+            new_list << RPG::EventCommand.new(355,
+                                              cmd.indent,
+                                              ['show_dialogue('])
             new_list << RPG::EventCommand.new(655,
                                               cmd.indent,
                                               ["\"#{text_id}\")"])
@@ -1340,7 +1340,7 @@ module LanguageFileSystem
             new_choices = []
             cmd.parameters[0].each { |choice|
               # Generate Text ID (max 39 chars)
-              text_id = text_id_prefix + ID_FORMAT % 
+              text_id = text_id_prefix + ID_FORMAT %
                         [event_id, event_name, page_id + 1, cmd_id]
               new_choices << "\\dialogue[#{text_id}]"
               dialogue_file.write("\n")
@@ -1353,12 +1353,12 @@ module LanguageFileSystem
                         [new_choices] + cmd.parameters[1..-1])
           when 105 # Show Scrolling Text...
             # Generate Text ID (max 39 chars)
-            text_id = text_id_prefix + ID_FORMAT % 
+            text_id = text_id_prefix + ID_FORMAT %
                       [event_id, event_name, page_id + 1, cmd_id]
             # Replace with Script command
-            new_list << RPG::EventCommand.new(355, 
-                                              cmd.indent, 
-                                              ["show_scrolling("])
+            new_list << RPG::EventCommand.new(355,
+                                              cmd.indent,
+                                              ['show_scrolling('])
             new_list << RPG::EventCommand.new(655,
                                               cmd.indent,
                                               ["\"#{text_id}\")"])
@@ -1373,7 +1373,7 @@ module LanguageFileSystem
             dialogue_file.write(cmd.parameters[0] + "\n")
           when 320, 324 # Change Name... / Change Nickname...
             unless NAME_CODE =~ cmd.parameters[1] || cmd.parameters[1].empty?
-              name_id = cmd.parameters[1].gsub(" ", "_").downcase
+              name_id = cmd.parameters[1].gsub(' ', '_').downcase
               new_list << RPG::EventCommand.new(320, cmd.indent,
                           [cmd.parameters[0]] + ["\\name[#{name_id}]"])
               database_file.write("\n")
@@ -1386,14 +1386,14 @@ module LanguageFileSystem
       }
       page.list = new_list
     end
-    
+
   #--------------------------------------------------------------------------
   # * Extracting the database text content
   #--------------------------------------------------------------------------
     def extract_database
-      f = open(EXTRACTED_DIR_NAME + "/DatabaseText.rvtext", "a")
+      f = open(EXTRACTED_DIR_NAME + '/DatabaseText.rvtext', 'a')
       example_db = new_database_hash
-      
+
       begin
         # Extract Base Items
         [:actors, :classes, :skills, :items, :weapons, :armors, :enemies,
@@ -1408,27 +1408,27 @@ module LanguageFileSystem
                   unless l.note.empty?
                     f.write("\n")
                     f.write("<<classes/%d/learnings/%d>>\n" % [obj.id, i])
-                    f.write(l.note.gsub("\r", "") + "\n")
+                    f.write(l.note.gsub("\r", '') + "\n")
                   end
                 }
-              elsif example_db[group_name].has_key?(key) && 
+              elsif example_db[group_name].has_key?(key) &&
                  !obj.instance_variable_get(iv).empty?
                 f.write("\n")
                 f.write("<<%s/%d/%s>>\n" % [group_name, obj.id, key])
-                f.write(obj.instance_variable_get(iv).gsub("\r", "") + "\n")
+                f.write(obj.instance_variable_get(iv).gsub("\r", '') + "\n")
               end
             }
           }
         }
-        
+
         # Extract System
         f.write("\n")
         f.write("<<system/game_title>>\n")
-        f.write($data_system.instance_variable_get("@game_title") + "\n")
+        f.write($data_system.instance_variable_get('@game_title') + "\n")
         f.write("\n")
         f.write("<<system/currency_unit>>\n")
-        f.write($data_system.instance_variable_get("@currency_unit") + "\n")
-        
+        f.write($data_system.instance_variable_get('@currency_unit') + "\n")
+
         # Extract Types
         [:elements, :skill_types, :weapon_types, :armor_types].each { |group|
           $data_system.instance_variable_get("@#{group}").
@@ -1440,7 +1440,7 @@ module LanguageFileSystem
             end
           }
         }
-        
+
         # Extract Terms
         [:basic, :params, :etypes, :commands].each { |group|
           $data_system.terms.instance_variable_get("@#{group}").
@@ -1452,7 +1452,7 @@ module LanguageFileSystem
             end
           }
         }
-        
+
         # Extract Vocab
         Vocab.constants.each { |c|
           f.write("\n")
@@ -1463,9 +1463,9 @@ module LanguageFileSystem
         f.close
       end
     end
-    
+
   end
-  
+
 end
 
 #==============================================================================
@@ -1477,7 +1477,7 @@ end
 #   alias: load_database
 #==============================================================================
 module DataManager
-  
+
   #--------------------------------------------------------------------------
   # * Loading the language files
   #--------------------------------------------------------------------------
@@ -1527,7 +1527,7 @@ class Game_Message
     lfs_clear
     @replaced = false
   end
-  
+
 end
 
 #==============================================================================
@@ -1556,7 +1556,7 @@ class Game_Interpreter
     }
     lfs_setup_choices([choices] + params[1..-1])
   end
-  
+
   #--------------------------------------------------------------------------
   # * Shows a message with predefined text content
   #--------------------------------------------------------------------------
@@ -1575,7 +1575,7 @@ class Game_Interpreter
     end
     wait_for_message
   end
-  
+
   #--------------------------------------------------------------------------
   # * Shows a scrolling message with predefined text content
   #--------------------------------------------------------------------------
@@ -1610,7 +1610,7 @@ module Cache
 
     lfs_load_bitmap(folder_name, filename, hue)
   end
-  
+
 end
 
 #==============================================================================
@@ -1634,7 +1634,7 @@ class Game_Actor
     @name = nil
     @nickname = nil
   end
-  
+
   #--------------------------------------------------------------------------
   # * If no name change occurred, read name from database object.
   #--------------------------------------------------------------------------
@@ -1645,7 +1645,7 @@ class Game_Actor
     end
     result ||= @name
   end
-  
+
   #--------------------------------------------------------------------------
   # * If no nickname change occurred, read nickname from database object.
   #--------------------------------------------------------------------------
@@ -1656,7 +1656,7 @@ class Game_Actor
     end
     result ||= @nickname
   end
-  
+
 end
 
 #==============================================================================
@@ -1669,26 +1669,26 @@ end
 #   overwrite: getter for @name, @description, @note
 #==============================================================================
 class RPG::BaseItem
-  
+
   #--------------------------------------------------------------------------
   # * Maps database object class to the corresponding key in the language
   #   file hash to improve polymorphism of the implementation
   #--------------------------------------------------------------------------
-  SUBCLASS_KEYS = {RPG::Actor => :actors, RPG::Class => :classes, 
+  SUBCLASS_KEYS = {RPG::Actor => :actors, RPG::Class => :classes,
                    RPG::Skill => :skills, RPG::Item => :items,
                    RPG::Weapon => :weapons, RPG::Armor => :armors,
                    RPG::Enemy => :enemies, RPG::State => :states}
-    
+
   #--------------------------------------------------------------------------
   # * Read attribute from language file hash (Metaprogramming ninjutsu :D)
   #--------------------------------------------------------------------------
-  ["name", "description", "note"].each do |var|
+  ['name', 'description', 'note'].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
       result = LanguageFileSystem::database[SUBCLASS_KEYS[self.class]]
       result = result[var.to_sym] if result
       result = result[@id] if result
-      
+
       result ||= instance_variable_get("@#{var}")
     end
   end
@@ -1705,23 +1705,23 @@ end
 #   overwrite: getter for @nickname
 #==============================================================================
 class RPG::Actor < RPG::BaseItem
-    
+
   #--------------------------------------------------------------------------
   # * Read attribute from language file hash (Metaprogramming ninjutsu :D)
   #--------------------------------------------------------------------------
-  ["nickname"].each do |var|
+  ['nickname'].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
       result = LanguageFileSystem::database[:actors]
       result = result[var.to_sym] if result
       result = result[@id] if result
-      
+
       result ||= instance_variable_get("@#{var}")
     end
   end
-  
+
 end
-  
+
 #==============================================================================
 # ** RPG::Skill
 #------------------------------------------------------------------------------
@@ -1732,11 +1732,11 @@ end
 #   overwrite: getter for @message1, @message2
 #==============================================================================
 class RPG::Skill < RPG::UsableItem
-    
+
   #--------------------------------------------------------------------------
   # * Read attribute from language file hash (Metaprogramming ninjutsu :D)
   #--------------------------------------------------------------------------
-  ["message1", "message2"].each do |var|
+  ['message1', 'message2'].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
       result = LanguageFileSystem::database[:skills]
@@ -1746,9 +1746,9 @@ class RPG::Skill < RPG::UsableItem
       result ||= instance_variable_get("@#{var}")
     end
   end
-  
+
 end
-  
+
 #==============================================================================
 # ** RPG::State
 #------------------------------------------------------------------------------
@@ -1759,23 +1759,23 @@ end
 #   overwrite: getter for @message1, @message2, @message3, @message4
 #==============================================================================
 class RPG::State < RPG::BaseItem
-    
+
   #--------------------------------------------------------------------------
   # * Read attribute from language file hash (Metaprogramming ninjutsu :D)
   #--------------------------------------------------------------------------
-  ["message1", "message2", "message3", "message4"].each do |var|
+  ['message1', 'message2', 'message3', 'message4'].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
       result = LanguageFileSystem::database[:states]
       result = result[var.to_sym] if result
       result = result[@id] if result
-        
+
       result ||= instance_variable_get("@#{var}")
     end
   end
-  
+
 end
-  
+
 #==============================================================================
 # ** RPG::System
 #------------------------------------------------------------------------------
@@ -1788,11 +1788,11 @@ end
 #                         @weapon_types, @armor_types
 #==============================================================================
 class RPG::System
-  
+
   #--------------------------------------------------------------------------
   # * Read attribute from language file hash (Metaprogramming ninjutsu :D)
   #--------------------------------------------------------------------------
-  ["game_title", "currency_unit"].each do |var|
+  ['game_title', 'currency_unit'].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
       result = LanguageFileSystem::database[:system]
@@ -1801,11 +1801,11 @@ class RPG::System
       result ||= instance_variable_get("@#{var}")
     end
   end
-  
+
   #--------------------------------------------------------------------------
   # * Read attribute from language file hash (Metaprogramming ninjutsu :D)
   #--------------------------------------------------------------------------
-  ["elements", "skill_types", "weapon_types", "armor_types"].each do |var|
+  ['elements', 'skill_types', 'weapon_types', 'armor_types'].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
       result = LanguageFileSystem::database[:types]
@@ -1814,7 +1814,7 @@ class RPG::System
       instance_variable_get("@#{var}")
     end
   end
-  
+
 end
 
 #==============================================================================
@@ -1827,11 +1827,11 @@ end
 #   overwrite: getter for @basic, @params, @etypes, @commands
 #==============================================================================
 class RPG::System::Terms
-  
+
   #--------------------------------------------------------------------------
   # * Read attribute from language file hash (Metaprogramming ninjutsu :D)
   #--------------------------------------------------------------------------
-  ["basic", "params", "etypes", "commands"].each do |var|
+  ['basic', 'params', 'etypes', 'commands'].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
       result = LanguageFileSystem::database[:terms]
@@ -1840,9 +1840,9 @@ class RPG::System::Terms
       instance_variable_get("@#{var}")
     end
   end
-  
+
 end
-  
+
 #==============================================================================
 # ** RPG::Map
 #------------------------------------------------------------------------------
@@ -1857,7 +1857,7 @@ class RPG::Map
   #--------------------------------------------------------------------------
   # * Read attribute from language file hash (Metaprogramming ninjutsu :D)
   #--------------------------------------------------------------------------
-  ["display_name", "note"].each do |var|
+  ['display_name', 'note'].each do |var|
     alias_method "lfs_#{var}".to_sym, "#{var}".to_sym
     define_method("#{var}") do
       result = LanguageFileSystem::database[:maps]
@@ -1867,5 +1867,5 @@ class RPG::Map
       result ||= instance_variable_get("@#{var}")
     end
   end
-  
+
 end
