@@ -85,3 +85,5 @@ module RPG
     def note; end
   end
 end
+
+$imported = nil
