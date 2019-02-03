@@ -86,4 +86,10 @@ module RPG
   end
 end
 
+# RPG Maker global methods
+class Module
+  def load_data(path)
+  end
+end
+
 $imported = nil
