@@ -1,0 +1,11 @@
+version: "3"
+services:
+  ruby:
+    image: allenwei/ruby-1.9.2:p290
+    working_dir: /usr/src
+    volumes:
+      - .:/usr/src
+      - bundle:/usr/local/bundle
+
+volumes:
+  bundle:
