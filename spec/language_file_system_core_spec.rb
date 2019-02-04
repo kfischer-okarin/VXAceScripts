@@ -29,6 +29,10 @@ RSpec.describe LanguageFileSystem do
   end
 
   def touch(filename)
+    if filename.include?('/')
+      parts = filename.split '/'
+      Dir.mkdir(parts[0]) unless Dir.exists?(parts[0])
+    end
     open(filename, 'w') do |f|
       f.write ''
     end
@@ -83,12 +87,11 @@ RSpec.describe LanguageFileSystem do
         end
 
         describe 'Dialogue file' do
-          let(:rvtext_file) { 'DialoguesGerman.rvtext' }
           let(:filename) { 'Data/DialoguesGerman.rvdata2' }
 
-          context 'When the rvtext file exists' do
+          context 'When the encrypted file exists' do
             before do
-              touch rvtext_file
+              touch filename
             end
 
             it 'loads the encrypted file' do
@@ -99,12 +102,11 @@ RSpec.describe LanguageFileSystem do
         end
 
         describe 'Database text file' do
-          let(:rvtext_file) { 'DatabaseTextGerman.rvtext' }
           let(:filename) { 'Data/DatabaseTextGerman.rvdata2' }
 
-          context 'When the rvtext file exists' do
+          context 'When the encrypted file exists' do
             before do
-              touch rvtext_file
+              touch filename
             end
 
             it 'loads the encrypted file and initializes the database' do

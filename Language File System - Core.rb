@@ -735,10 +735,10 @@ module LanguageFileSystem
     def initialize
       load_language
 
-      if FileTest.exist?("#{DIALOGUE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
+      if FileTest.exist?(dialogue_file)
         @dialogues = ENABLE_ENCRYPTION ? load_data(dialogue_file) : load_dialogues(language)
       end
-      if FileTest.exist?("#{DATABASE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
+      if FileTest.exist?(database_file)
         @database = ENABLE_ENCRYPTION ? load_data(database_file) : load_database(language)
         redefine_constants
         redefine_assignments
