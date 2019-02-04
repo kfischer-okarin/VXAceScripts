@@ -4,13 +4,13 @@ RSpec.describe LanguageFileSystem do
   let(:default_language) { nil }
 
   def set_language_to(value)
-    LanguageFileSystem.instance_variable_set(:@language, value)
+    allow(LanguageFileSystem).to receive(:language).and_return value
   end
 
   before do
     # Simulate module load
     stub_const('LanguageFileSystem::DEFAULT_LANGUAGE', default_language)
-    set_language_to LanguageFileSystem::DEFAULT_LANGUAGE
+    LanguageFileSystem.instance_variable_set(:@language, LanguageFileSystem::DEFAULT_LANGUAGE)
   end
 
   shared_context 'With Game.ini' do

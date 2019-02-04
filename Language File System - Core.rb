@@ -736,13 +736,13 @@ module LanguageFileSystem
 
     if FileTest.exist?("#{DIALOGUE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
       @dialogues = ENABLE_ENCRYPTION ?
-        load_data("Data/#{DIALOGUE_FILE_PREFIX}#{@language}.rvdata2") :
-        load_dialogues(@language)
+        load_data("Data/#{DIALOGUE_FILE_PREFIX}#{language}.rvdata2") :
+        load_dialogues(language)
     end
     if FileTest.exist?("#{DATABASE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
       @database = ENABLE_ENCRYPTION ?
         load_data("Data/#{DATABASE_FILE_PREFIX}#{language}.rvdata2") :
-        load_database(@language)
+        load_database(language)
       redefine_constants
       redefine_assignments
     end
