@@ -4,13 +4,13 @@ RSpec.describe LanguageFileSystem do
   let(:default_language) { nil }
 
   def set_language_to(value)
-    LanguageFileSystem.instance_variable_set(:@language, value)
+    allow(LanguageFileSystem).to receive(:language).and_return value
   end
 
   before do
     # Simulate module load
     stub_const('LanguageFileSystem::DEFAULT_LANGUAGE', default_language)
-    set_language_to LanguageFileSystem::DEFAULT_LANGUAGE
+    LanguageFileSystem.instance_variable_set(:@language, LanguageFileSystem::DEFAULT_LANGUAGE)
   end
 
   shared_context 'With Game.ini' do
@@ -29,6 +29,10 @@ RSpec.describe LanguageFileSystem do
   end
 
   def touch(filename)
+    if filename.include?('/')
+      parts = filename.split '/'
+      Dir.mkdir(parts[0]) unless Dir.exists?(parts[0])
+    end
     open(filename, 'w') do |f|
       f.write ''
     end
@@ -77,29 +81,55 @@ RSpec.describe LanguageFileSystem do
         set_language_to language
       end
 
-      describe 'Dialogue file' do
-        let(:rvtext_file) { 'DialoguesGerman.rvtext' }
-        let(:encrypted_file) { 'Data/DialoguesGerman.rvdata2' }
+      context 'When encryption is enabled' do
+        before do
+          stub_const('LanguageFileSystem::ENABLE_ENCRYPTION', true)
+        end
 
-        context 'When the rvtext file exists' do
-          before do
-            touch rvtext_file
-          end
+        describe 'Dialogue file' do
+          let(:filename) { 'Data/DialoguesGerman.rvdata2' }
 
-          context 'and encryption is enabled' do
+          context 'When the encrypted file exists' do
             before do
-              stub_const('LanguageFileSystem::ENABLE_ENCRYPTION', true)
+              touch filename
             end
 
             it 'loads the encrypted file' do
-              expect(LanguageFileSystem).to receive(:load_data).with encrypted_file
+              expect(LanguageFileSystem).to receive(:load_data).with filename
               initialize_plugin
             end
           end
+        end
 
-          context 'and encryption is disabled' do
+        describe 'Database text file' do
+          let(:filename) { 'Data/DatabaseTextGerman.rvdata2' }
+
+          context 'When the encrypted file exists' do
             before do
-              stub_const('LanguageFileSystem::ENABLE_ENCRYPTION', false)
+              touch filename
+            end
+
+            it 'loads the encrypted file and initializes the database' do
+              expect(LanguageFileSystem).to receive(:load_data).with filename
+              expect(LanguageFileSystem).to receive(:redefine_constants)
+              expect(LanguageFileSystem).to receive(:redefine_assignments)
+              initialize_plugin
+            end
+          end
+        end
+      end
+
+      context 'When encryption is disabled' do
+        before do
+          stub_const('LanguageFileSystem::ENABLE_ENCRYPTION', false)
+        end
+
+        describe 'Dialogue file' do
+          let(:filename) { 'DialoguesGerman.rvtext' }
+
+          context 'When the rvtext file exists' do
+            before do
+              touch filename
             end
 
             it 'loads the rvtext file' do
@@ -108,33 +138,13 @@ RSpec.describe LanguageFileSystem do
             end
           end
         end
-      end
 
-      describe 'Database text file' do
-        let(:rvtext_file) { 'DatabaseTextGerman.rvtext' }
-        let(:encrypted_file) { 'Data/DatabaseTextGerman.rvdata2' }
+        describe 'Database text file' do
+          let(:filename) { 'DatabaseTextGerman.rvtext' }
 
-        context 'When the rvtext file exists' do
-          before do
-            touch rvtext_file
-          end
-
-          context 'and encryption is enabled' do
+          context 'When the rvtext file exists' do
             before do
-              stub_const('LanguageFileSystem::ENABLE_ENCRYPTION', true)
-            end
-
-            it 'loads the encrypted file and initializes the database' do
-              expect(LanguageFileSystem).to receive(:load_data).with encrypted_file
-              expect(LanguageFileSystem).to receive(:redefine_constants)
-              expect(LanguageFileSystem).to receive(:redefine_assignments)
-              initialize_plugin
-            end
-          end
-
-          context 'and encryption is disabled' do
-            before do
-              stub_const('LanguageFileSystem::ENABLE_ENCRYPTION', false)
+              touch filename
             end
 
             it 'loads the rvtext file and initializes the database' do
