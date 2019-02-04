@@ -728,33 +728,48 @@ module LanguageFileSystem
 
   @language = DEFAULT_LANGUAGE
 
-  #--------------------------------------------------------------------------
-  # * Load language files of current language
-  #--------------------------------------------------------------------------
-  def self.initialize
-    load_language
+  class << self
+    #--------------------------------------------------------------------------
+    # * Load language files of current language
+    #--------------------------------------------------------------------------
+    def initialize
+      load_language
 
-    if FileTest.exist?("#{DIALOGUE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
-      @dialogues = ENABLE_ENCRYPTION ?
-        load_data("Data/#{DIALOGUE_FILE_PREFIX}#{language}.rvdata2") :
-        load_dialogues(language)
+      if FileTest.exist?("#{DIALOGUE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
+        @dialogues = ENABLE_ENCRYPTION ? load_data(dialogue_file) : load_dialogues(language)
+      end
+      if FileTest.exist?("#{DATABASE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
+        @database = ENABLE_ENCRYPTION ? load_data(database_file) : load_database(language)
+        redefine_constants
+        redefine_assignments
+      end
     end
-    if FileTest.exist?("#{DATABASE_FILE_PREFIX}#{language}.#{FILE_EXTENSION}")
-      @database = ENABLE_ENCRYPTION ?
-        load_data("Data/#{DATABASE_FILE_PREFIX}#{language}.rvdata2") :
-        load_database(language)
-      redefine_constants
-      redefine_assignments
+
+    #--------------------------------------------------------------------------
+    # * Current game language
+    #--------------------------------------------------------------------------
+    def language
+      @language
+    end
+
+    private
+
+    def dialogue_file(lang = language)
+      if ENABLE_ENCRYPTION
+        "Data/#{DIALOGUE_FILE_PREFIX}#{lang}.rvdata2"
+      else
+        "#{DIALOGUE_FILE_PREFIX}#{lang}.#{FILE_EXTENSION}"
+      end
+    end
+
+    def database_file(lang = language)
+      if ENABLE_ENCRYPTION
+        "Data/#{DATABASE_FILE_PREFIX}#{lang}.rvdata2"
+      else
+        "#{DATABASE_FILE_PREFIX}#{lang}.#{FILE_EXTENSION}"
+      end
     end
   end
-
-  #--------------------------------------------------------------------------
-  # * Current game language
-  #--------------------------------------------------------------------------
-  def self.language
-    @language
-  end
-
   #--------------------------------------------------------------------------
   # * Set the game language
   #--------------------------------------------------------------------------
