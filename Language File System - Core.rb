@@ -752,6 +752,14 @@ module LanguageFileSystem
       @language
     end
 
+    #===========================================================================
+    # ** LanguageFileSystem (private methods)
+    #---------------------------------------------------------------------------
+    # These methods are used internally and should not be used directly unless
+    # you know what you do ;)
+    #
+    # Methods: dialogue_file, database_file
+    #===========================================================================
     private
 
     def dialogue_file(lang = language)
