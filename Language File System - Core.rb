@@ -1,8 +1,8 @@
 #==============================================================================
 #
 # Language File System - Core Script
-# Version 1.4.1
-# Last Update: May 21st, 2016
+# Version 1.4.2
+# Last Update: February 4th, 2019
 # Author: DerTraveler (dertraveler [at] gmail.com)
 #
 #==============================================================================
@@ -587,6 +587,12 @@ $imported[:LanguageFileSystem_Core] = true
 # 5. Changelog
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
+#   1.4.2:
+#     - Bugfix: Fixed a bug that encrypted language data would not be loaded if
+#               the corresponding rvtext does not exist at the same time (which
+#               defeated the purpose of encrypting though you still could put
+#               an empty rvtext file to make it work without exposing your
+#               text.
 #   1.4.1:
 #     - Bugfix: Fixed invalid id creation for map display_name and note
 #               extraction and learnings.
